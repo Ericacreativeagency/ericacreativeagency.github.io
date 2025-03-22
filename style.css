@@ -46,9 +46,8 @@
         flex: 1 1 50%;
     }
    .nav-link img{ 
-        width: 100%;
-        height: 100px; /* Set a fixed height */
-        object-fit: cover; /* Ensures the image fits within the specified area */
+        width: 150px; /* Set a default width */
+        height: auto; /* Maintain the aspect ratio */
     
    }
   }
@@ -69,6 +68,10 @@
 
     .service-item {
         flex: 1 1 100%;
+    }
+       .nav-link img {
+        width: 75px; /* Further reduce the image size for phones */
+        height: auto;
     }
     }
 
