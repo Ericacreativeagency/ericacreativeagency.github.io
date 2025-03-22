@@ -20,8 +20,8 @@
         flex: 1 1 25%; /* Allow more items per row for bigger screens */
     }
     .nav-link img {
-        width: 200px; /* Slightly larger for high-resolution desktops */
-        height: 200px;
+       width: 150px; /* Set a default width */
+        height: auto; /* Maintain the aspect ratio */
         border: 3px solid #007bff; /* Optional: Add a border for styling */
     }
 }
