@@ -1,4 +1,14 @@
 /* style.css */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 10px;
+  }
+  .container {
+    flex-direction: column;
+  }
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
