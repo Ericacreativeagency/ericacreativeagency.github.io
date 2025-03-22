@@ -19,6 +19,11 @@
     .service-item {
         flex: 1 1 50%;
     }
+   img {
+        width: 100%;
+        height: 200px; /* Set a fixed height */
+        object-fit: cover; /* Ensures the image fits within the specified area */
+    }
   }
   @media (max-width: 576px) {
    .header-content {
