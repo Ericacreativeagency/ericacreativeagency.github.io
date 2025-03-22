@@ -1,4 +1,30 @@
 /* style.css */
+@media (min-width: 1024px) {
+    .header-content {
+        flex-direction: row; /* Keep items in a row for larger screens */
+    }
+
+    .container {
+        flex-direction: row; /* Row layout for desktops */
+    }
+
+    .hero-title {
+        font-size: 3.5em; /* Larger font size for desktops */
+    }
+
+    .services-list {
+        gap: 20px; /* Increase the spacing for a more spread-out layout */
+    }
+
+    .service-item {
+        flex: 1 1 25%; /* Allow more items per row for bigger screens */
+    }
+    .nav-link img {
+        width: 200px; /* Slightly larger for high-resolution desktops */
+        height: 200px;
+        border: 3px solid #007bff; /* Optional: Add a border for styling */
+    }
+}
 @media (max-width: 768px) {
    .header-content {
         flex-direction: column;
