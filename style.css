@@ -4,6 +4,25 @@
     font-size: 16px;
     padding: 10px;
   }
+  @media (max-width: 576px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-title {
+        font-size: 2em;
+    }
+
+    .services-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .service-item {
+        flex: 1 1 100%;
+    }
+}
   .container {
     flex-direction: column;
   }
