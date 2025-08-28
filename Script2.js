@@ -13,26 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('background-video');
     const unmuteButton = document.getElementById('unmute-button');
 
-    // Mute the video by default to satisfy browser policies
+    // This makes sure the video is muted on first load
     if (video) {
         video.muted = true;
     }
 
-    // Add a click event listener to the button
+    // This code block runs when the button is clicked
     if (unmuteButton && video) {
         unmuteButton.addEventListener('click', () => {
             if (video.muted) {
-                video.muted = false;
-                unmuteButton.textContent = 'Mute';
+                video.muted = false; // This line enables the sound
+                unmuteButton.textContent = 'Mute'; // Changes the text to 'Mute'
                 video.play();
             } else {
-                video.muted = true;
-                unmuteButton.textContent = 'Unmute';
+                video.muted = true; // This line mutes the sound
+                unmuteButton.textContent = 'Unmute'; // Changes the text to 'Unmute'
             }
         });
     }
 
-    // Optional: Play the video on load
+    // This ensures the video plays automatically on load
     if (video) {
         video.play();
     }
