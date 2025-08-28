@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         unmuteButton.addEventListener('click', () => {
             if (video.muted) {
                 video.muted = false;
-                unmuteButton.textContent = 'Mute'; // Change button text
-                video.play(); // Play the video
+                unmuteButton.textContent = 'Mute';
+                video.play();
             } else {
                 video.muted = true;
-                unmuteButton.textContent = 'Unmute'; // Change button text back
+                unmuteButton.textContent = 'Unmute';
             }
         });
     }
