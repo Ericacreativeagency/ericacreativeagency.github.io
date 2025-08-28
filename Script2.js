@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+JS: document.addEventListener('DOMContentLoaded', () => {
     // Header scroll effect
     const header = document.querySelector('.header');
     window.addEventListener('scroll', () => {
@@ -14,10 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const unmuteButton = document.getElementById('unmute-button');
 
     // Mute the video by default to satisfy browser policies
-    video.muted = true;
+    if (video) {
+        video.muted = true;
+    }
 
     // Add a click event listener to the button
-    if (unmuteButton) { // Check if the button exists before adding the event listener
+    if (unmuteButton && video) {
         unmuteButton.addEventListener('click', () => {
             if (video.muted) {
                 video.muted = false;
@@ -30,5 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Optional: Play the video on load
-    video.play();
+    if (video) {
+        video.play();
+    }
 });
