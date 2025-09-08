@@ -195,7 +195,7 @@ body {
   text-transform: uppercase;
   transition: transform 30s ease, background-color 30s ease;
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-  animation: bounceIn 1s ease-out 1s forwards;
+  animation: bounceIn 5s ease-out 5s forwards;
   opacity: 0;
 }
 
