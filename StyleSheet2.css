@@ -34,8 +34,8 @@ body {
 
 .video-container {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 40px;
+    right: 40px;
     width: 300px; /* Adjust as needed */
     height: 168.75px; /* Maintain a 16:9 aspect ratio */
     z-index: 999;
