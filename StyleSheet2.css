@@ -193,7 +193,7 @@ body {
   border-radius: 50px;
   font-weight: 700;
   text-transform: uppercase;
-  transition: transform 15s ease, background-color 15s ease;
+  transition: transform 25s ease, background-color 25s ease;
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
   animation: bounceIn 1s ease-out 1s forwards;
   opacity: 0;
