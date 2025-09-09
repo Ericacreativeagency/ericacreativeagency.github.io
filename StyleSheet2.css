@@ -39,6 +39,7 @@ body {
     width: 100%;
     height: 100vh; /* Adjust height as needed */
     overflow: hidden;
+    z-index:-1;
 }
 .video-container:hover .video-controls {
     opacity: 1;
