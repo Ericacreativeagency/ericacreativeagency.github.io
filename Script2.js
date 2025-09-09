@@ -9,26 +9,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Background video sound control
+    // Video controls
     const video = document.getElementById('background-video');
     const unmuteButton = document.getElementById('unmute-button');
+    const pauseButton = document.getElementById('pause-button');
+    const forwardButton = document.getElementById('forward-button');
 
     // This makes sure the video is muted on first load
     if (video) {
         video.muted = true;
     }
 
-    // This code block runs when the button is clicked
+    // Unmute/Mute button functionality
     if (unmuteButton && video) {
         unmuteButton.addEventListener('click', () => {
-            if (video.muted) {
-                video.muted = false; // This line enables the sound
-                unmuteButton.textContent = 'Mute'; // Changes the text to 'Mute'
+            video.muted = !video.muted;
+            unmuteButton.textContent = video.muted ? 'Unmute' : 'Mute';
+        });
+    }
+
+    // Pause/Play button functionality
+    if (pauseButton && video) {
+        pauseButton.addEventListener('click', () => {
+            if (video.paused) {
                 video.play();
+                pauseButton.textContent = 'Pause';
             } else {
-                video.muted = true; // This line mutes the sound
-                unmuteButton.textContent = 'Unmute'; // Changes the text to 'Unmute'
+                video.pause();
+                pauseButton.textContent = 'Play';
             }
+        });
+    }
+
+    // Forward button functionality (jumps 10 seconds ahead)
+    if (forwardButton && video) {
+        forwardButton.addEventListener('click', () => {
+            video.currentTime += 10;
         });
     }
 
