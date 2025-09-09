@@ -494,9 +494,35 @@ body {
 /* Media Queries for Tablet and Smaller Devices (up to 768px) */
 @media (max-width: 768px) {
   .video-container {
-    width: 200px;
-    height: 112.5px;
+     /* On small screens, change the container to a fixed, small size */
+        position: fixed;
+        width: 150px; /* Example size */
+        height: 84.375px; /* Maintains a 16:9 aspect ratio */
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999; /* Ensure it's on top of all content */
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   }
+  .video-container #background-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: static; /* Reset to static positioning */
+        transform: none; /* Remove the centering transform */
+    }
+   .video-controls {
+        opacity: 1; /* Always visible on mobile */
+        pointer-events: auto;
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        transform: none;
+        background: none;
+        box-shadow: none;
+        gap: 5px;
+        padding: 5px;
+    }
   .header-content {
     flex-direction: column;
     margin-right: 0;
