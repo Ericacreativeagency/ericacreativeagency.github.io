@@ -9,50 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-   // Video controls
-    const video = document.getElementById('myVideo'); // Or myAudio for audio
+ const video = document.getElementById('background-video');
 const unmuteButton = document.getElementById('unmute-button');
 const pauseButton = document.getElementById('pause-button');
 const forwardButton = document.getElementById('forward-button');
 
-    // This makes sure the video is muted on first load
-    if (video) {
-        video.muted = true;
-    }
-
-    // Unmute/Mute functionality
+// Unmute/Mute functionality
 unmuteButton.addEventListener('click', () => {
-    if (video.muted) {
-        video.muted = false;
-        // Change the icon to show it's unmuted
-        unmuteButton.querySelector('.icon').textContent = '🔊';
-    } else {
-        video.muted = true;
-        // Change the icon to show it's muted
-        unmuteButton.querySelector('.icon').textContent = '🔇';
-    }
+    video.muted = !video.muted; // Toggles the muted state
+    // Update the icon based on the new muted state
+    unmuteButton.querySelector('.icon').innerHTML = video.muted ? '&#128266;' : '&#x1F50A;';
 });
-    }
 
-    // Pause/Play functionality
+// Pause/Play functionality
 pauseButton.addEventListener('click', () => {
     if (video.paused) {
         video.play();
-        // Change the icon to show 'pause'
-        pauseButton.querySelector('.icon').innerHTML = '&#9616;&#9616;';
+        pauseButton.querySelector('.icon').innerHTML = '&#9616;&#9616;'; // Change to pause icon
     } else {
         video.pause();
-        // Change the icon to show 'play'
-        pauseButton.querySelector('.icon').innerHTML = '&#9658;'; // Play icon
+        pauseButton.querySelector('.icon').innerHTML = '&#9658;'; // Change to play icon
     }
 });
-    }
 
-    // Forward functionality
+// Forward functionality
 forwardButton.addEventListener('click', () => {
     video.currentTime += 10; // Jump forward by 10 seconds
 });
-    }
 
     // This ensures the video plays automatically on load
     if (video) {
