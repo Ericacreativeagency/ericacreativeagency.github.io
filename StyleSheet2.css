@@ -34,54 +34,58 @@ body {
   background-color: var(--color-primary);
 }
 
+/* Corrected .video-container and .video-controls */
+
+/* This container should be for positioning the video and controls */
 .video-container {
-  display: flex;
-    gap: 10px; /* Adds spacing between buttons */
+    position: relative;
+    width: 100%; /* Take up the full width */
+    height: 100%; /* Take up the full height */
+    overflow: hidden; /* Hide parts of the video that overflow */
+}
+
+/* This is the actual controls bar. Correcting its styles here. */
+.video-controls {
+    display: flex;
+    gap: 15px;
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
     backdrop-filter: blur(5px); /* Creates a cool frosted glass effect */
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 50px; /* More rounded shape */
+    padding: 10px 20px;
     position: absolute; /* Positions the controls over the video */
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100; /* Ensures controls are on top of other content */
+    opacity: 0; /* Starts as invisible */
+    pointer-events: none; /* Prevents clicks when invisible */
+    transition: opacity 0.4s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
+
+/* Show controls on hover over the video container */
 .video-container:hover .video-controls {
     opacity: 1;
     pointer-events: auto; /* Re-enables clicks when visible */
 }
+
 /* Ensure the video fits inside the container */
 #background-video {
-  /* Stretches the video to fill its smaller container */
     width: 100%;
     height: 100%;
     object-fit: cover;
-    
-    /* Ensures the video is centered within the container */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
 
-}
-.video-controls {
-    /* Position controls relative to the new video container */
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 15px;
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 10px 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease-in-out;
-}
+/* Style for the mute button (This was conflicting with the control button styles) */
+/* The original HTML placed the mute button *inside* the controls div. Let's merge the styles for consistency.
+   We will remove the separate #unmute-button style and let the generic .control-button style take over.
+   This makes the design cohesive. */
+
+/* Base style for all control buttons */
 .control-button {
     background: transparent;
     border: none;
@@ -92,18 +96,21 @@ body {
     border-radius: 50%; /* Makes buttons circular */
     transition: background-color 0.3s ease; /* Smooth transition for hover */
 }
+
+/* Hover and focus effects for all control buttons */
 .control-button:hover,
 .control-button:focus {
     background-color: rgba(255, 255, 255, 0.2); /* Subtle white overlay on hover */
     outline: none; /* Removes the default blue outline on focus */
 }
+
 .icon {
     display: block; /* Ensures the icon is properly centered */
     line-height: 1;
 }
-/* ... other CSS ... */
 
-* Style for the unmute button, positioned relative to the container */
+/* Removed the separate #unmute-button style to ensure consistency with other buttons. */
+/* The previous #unmute-button styling was:
 #unmute-button {
     position: absolute;
     bottom: 10px;
@@ -118,12 +125,9 @@ body {
     transition: background-color 0.3s ease;
     z-index: 1000;
 }
+*/
 
-#unmute-button:hover {
-    background-color: #f7e68b;
-}
-
-/* ... other CSS ... */
+/* ... other CSS (unchanged) ... */
 
 /* Header & Navigation */
 .header {
@@ -490,9 +494,9 @@ body {
 /* Media Queries for Tablet and Smaller Devices (up to 768px) */
 @media (max-width: 768px) {
   .video-container {
-        width: 200px;
-        height: 112.5px;
-    }
+    width: 200px;
+    height: 112.5px;
+  }
   .header-content {
     flex-direction: column;
     margin-right: 0;
@@ -528,6 +532,7 @@ body {
   }
   .service-item {
     max-width: 100%;
+    flex: none;
   }
   .contact-form {
     padding: 20px;
