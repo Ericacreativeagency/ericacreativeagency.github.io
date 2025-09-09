@@ -39,7 +39,7 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    
+    border-radius:20px;
     /* Sets the size to be 40% of the viewport width */
     width: 40vw; 
     height: 40vh;
