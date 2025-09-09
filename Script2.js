@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Video controls
+   // Video controls
     const video = document.getElementById('background-video');
     const unmuteButton = document.getElementById('unmute-button');
     const pauseButton = document.getElementById('pause-button');
@@ -20,11 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         video.muted = true;
     }
 
-    // Unmute/Mute button functionality
+    // Mute/Unmute button functionality
     if (unmuteButton && video) {
         unmuteButton.addEventListener('click', () => {
             video.muted = !video.muted;
-            unmuteButton.textContent = video.muted ? 'Unmute' : 'Mute';
+            const icon = unmuteButton.querySelector('.icon');
+            icon.textContent = video.muted ? '&#128266;' : '&#128265;'; // Toggles speaker icons
         });
     }
 
@@ -33,15 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
         pauseButton.addEventListener('click', () => {
             if (video.paused) {
                 video.play();
-                pauseButton.textContent = 'Pause';
+                pauseButton.querySelector('.icon').textContent = '&#9616;&#9616;'; // Pause icon
             } else {
                 video.pause();
-                pauseButton.textContent = 'Play';
+                pauseButton.querySelector('.icon').textContent = '&#9658;'; // Play icon
             }
         });
     }
 
-    // Forward button functionality (jumps 10 seconds ahead)
+    // Forward button functionality
     if (forwardButton && video) {
         forwardButton.addEventListener('click', () => {
             video.currentTime += 10;
