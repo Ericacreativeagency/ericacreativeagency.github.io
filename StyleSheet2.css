@@ -35,17 +35,17 @@ body {
 }
 
 .video-container {
-    /* Positions the container in the bottom-left corner */
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-radius:20px;
-    /* Sets the size to be 40% of the viewport width */
-    width: 40vw; 
-    height: 40vh;
-    
-    overflow: hidden;
-    z-index: -1; 
+  display: flex;
+    gap: 10px; /* Adds spacing between buttons */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    backdrop-filter: blur(5px); /* Creates a cool frosted glass effect */
+    border-radius: 8px;
+    padding: 10px;
+    position: absolute; /* Positions the controls over the video */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100; /* Ensures controls are on top of other content */
 }
 .video-container:hover .video-controls {
     opacity: 1;
@@ -83,20 +83,23 @@ body {
     transition: opacity 0.4s ease-in-out;
 }
 .control-button {
-    background: none;
+    background: transparent;
     border: none;
-    color: white;
+    color: white; /* Icons will be white */
     font-size: 24px;
     cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 10px;
+    border-radius: 50%; /* Makes buttons circular */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
 }
-.control-button:hover {
-    color: #007bff; /* Highlight color on hover */
-    transform: scale(1.1); /* Slight grow effect */
+.control-button:hover,
+.control-button:focus {
+    background-color: rgba(255, 255, 255, 0.2); /* Subtle white overlay on hover */
+    outline: none; /* Removes the default blue outline on focus */
+}
+.icon {
+    display: block; /* Ensures the icon is properly centered */
+    line-height: 1;
 }
 /* ... other CSS ... */
 
