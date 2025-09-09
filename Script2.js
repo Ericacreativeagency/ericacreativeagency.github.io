@@ -8,6 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const forwardButton = document.getElementById('forward-button');
     const videoContainer = document.querySelector('.video-container');
 
+    function isSmallScreen() {
+        return window.innerWidth <= 768; // Matches your CSS media query
+    }
+     if (isSmallScreen()) {
+        video.muted = true; // Mute by default on small screens
+        unmuteButton.querySelector('.icon').innerHTML = '&#128266;';
+    }
+    unmuteButton.addEventListener('click', () => {
+        video.muted = !video.muted;
+        if (video.muted) {
+            unmuteButton.querySelector('.icon').innerHTML = '&#128266;';
+        } else {
+            unmuteButton.querySelector('.icon').innerHTML = '&#x1F50A;';
+        }
+    });
     // This handles muting/unmuting the video.
     unmuteButton.addEventListener('click', () => {
         video.muted = !video.muted; // Toggles the video's muted state
