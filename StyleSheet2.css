@@ -38,6 +38,10 @@ body {
     height: 100vh; /* Adjust height as needed */
     overflow: hidden;
 }
+.video-container:hover .video-controls {
+    opacity: 1;
+    pointer-events: auto; /* Re-enables clicks when visible */
+}
 /* Ensure the video fits inside the container */
 #background-video {
     width: 100%;
@@ -56,6 +60,9 @@ body {
     padding: 10px 20px;
     border-radius: 50px; /* Pill-shaped container */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.4s ease-in-out;
 }
 .control-button {
     background: none;
