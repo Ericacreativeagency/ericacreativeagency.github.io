@@ -78,6 +78,7 @@ const VideoControls = () => {
         const handleAudioEnd = () => setIsAudioPlaying(false);
         audioRef.current.addEventListener('ended', handleAudioEnd);
         return () => {
+          // Check if audioRef.current exists before removing listener
           audioRef.current?.removeEventListener('ended', handleAudioEnd);
         };
       }
@@ -86,7 +87,7 @@ const VideoControls = () => {
 
     return (
         <>
-            <audio ref={audioRef} className="sr-only" />
+            <audio ref={audioRef} className="sr-only" muted={isMuted} />
             <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/30 backdrop-blur-sm rounded-full p-2 flex items-center gap-1 z-10">
                 <Button 
                     variant="ghost" 
