@@ -5,9 +5,11 @@ import { Play, Pause, Volume2, VolumeX, Forward, ArrowRight, Disc3 } from 'lucid
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
-import { textToSpeech } from '@/ai/flows/text-to-speech';
 
 const heroImage = PlaceHolderImages.find(p => p.id === 'hero-background');
+
+// A subtle, pre-encoded chime sound that represents innovation.
+const INNOVATION_SOUND_DATA_URI = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
 
 const StaticHeroText = () => {
   return (
@@ -31,68 +33,30 @@ const StaticHeroText = () => {
   );
 };
 
-const introText = "Hi, I'm Erica. Let's build something beautiful. I transform ideas into impactful realities through innovative design and strategic marketing.";
-
 const VideoControls = () => {
     const [isMuted, setIsMuted] = useState(true);
-    const [isPaused, setIsPaused] = useState(false);
-    const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
     const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-    const [isAudioLoading, setIsAudioLoading] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    const handlePlayIntro = async () => {
+    const handlePlaySound = () => {
         if (!audioRef.current) return;
 
         if (isAudioPlaying) {
             audioRef.current.pause();
+            audioRef.current.currentTime = 0;
             setIsAudioPlaying(false);
-            return;
-        }
-
-        // If audio is already loaded, just play it.
-        if (audioDataUri) {
-            audioRef.current.play();
+        } else {
+            audioRef.current.play().catch(console.error);
             setIsAudioPlaying(true);
-            return;
         }
-
-        // This is the key change: play a silent sound on the user's click
-        // to satisfy browser autoplay policies.
-        audioRef.current.play().then(async () => {
-             // Now that playback is initiated, we can fetch the real audio.
-            setIsAudioLoading(true);
-            try {
-                const result = await textToSpeech(introText);
-                setAudioDataUri(result.media);
-            } catch (error) {
-                console.error("Error generating speech:", error);
-                // If AI fails, pause the silent audio
-                audioRef.current?.pause();
-            } finally {
-                setIsAudioLoading(false);
-            }
-        }).catch(error => {
-            console.error("Audio playback failed:", error);
-        });
     };
     
-    useEffect(() => {
-        // When the real audio data comes in, swap the source and keep playing.
-        if (audioDataUri && audioRef.current) {
-            const currentTime = audioRef.current.currentTime;
-            audioRef.current.src = audioDataUri;
-            // The load might pause it, so we ensure it continues
-            audioRef.current.play();
-            setIsAudioPlaying(true);
-        }
-    }, [audioDataUri]);
-
     useEffect(() => {
       if (audioRef.current) {
         const handleAudioEnd = () => setIsAudioPlaying(false);
         audioRef.current.addEventListener('ended', handleAudioEnd);
         return () => {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           audioRef.current?.removeEventListener('ended', handleAudioEnd);
         };
       }
@@ -101,28 +65,26 @@ const VideoControls = () => {
 
     return (
         <>
-            {/* Start with a silent audio source to satisfy autoplay policies */}
-            <audio ref={audioRef} src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" className="sr-only" muted={isMuted} />
+            <audio ref={audioRef} src={INNOVATION_SOUND_DATA_URI} className="sr-only" muted={isMuted} />
             <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/30 backdrop-blur-sm rounded-full p-2 flex items-center gap-1 z-10">
                 <Button 
                     variant="ghost" 
                     size="icon" 
                     className="text-white hover:bg-white/20 rounded-full" 
-                    onClick={handlePlayIntro}
-                    disabled={isAudioLoading}
+                    onClick={handlePlaySound}
                 >
                     {isAudioPlaying ? (
                        <Pause className="h-5 w-5" />
                     ) : (
-                       <Disc3 className={cn("h-5 w-5", isAudioLoading && "animate-spin")} />
+                       <Disc3 className="h-5 w-5" />
                     )}
-                    <span className="sr-only">Play Intro</span>
+                    <span className="sr-only">Play Sound</span>
                 </Button>
                 <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full" onClick={() => setIsMuted(!isMuted)}>
                     {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                     <span className="sr-only">{isMuted ? 'Unmute' : 'Mute'}</span>
                 </Button>
-                 {/* This button doesn't control our audio, so I am removing its functionality for now */}
+                 {/* These buttons are decorative for now */}
                 <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full">
                     <Play className="h-5 w-5" />
                      <span className="sr-only">Play</span>
