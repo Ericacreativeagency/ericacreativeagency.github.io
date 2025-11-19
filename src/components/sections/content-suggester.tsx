@@ -40,7 +40,7 @@ export function ContentSuggester() {
   };
 
   return (
-    <section id="ai-tools" className="py-20 lg:py-32 bg-background/50">
+    <section id="ai-tools" className="py-20 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="max-w-3xl mx-auto shadow-lg bg-card/70 backdrop-blur-sm border-white/20">
           <CardHeader className="text-center">

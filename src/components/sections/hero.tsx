@@ -36,7 +36,7 @@ const AnimatedHeroText = () => {
   }, []);
 
   return (
-    <div className="z-10 flex flex-col items-center text-center">
+    <div className="z-10 flex flex-col items-center text-center text-white">
       {loading ? (
         <>
           <Skeleton className="h-16 w-3/4 md:w-2/3 lg:w-1/2 mb-6" />
@@ -47,7 +47,7 @@ const AnimatedHeroText = () => {
           <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 text-balance animate-fade-in-up">
             {heroText?.heroTitle}
           </h1>
-          <p className="max-w-xl md:max-w-2xl text-lg md:text-xl text-primary-foreground/80 text-balance animate-fade-in-up [animation-delay:0.2s]">
+          <p className="max-w-xl md:max-w-2xl text-lg md:text-xl text-white/80 text-balance animate-fade-in-up [animation-delay:0.2s]">
             {heroText?.heroSubtitle}
           </p>
         </>
@@ -87,7 +87,7 @@ const VideoControls = () => {
 export function HeroSection() {
   return (
     <section className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden">
-      <div className="absolute inset-0 bg-primary/80 z-10" />
+      <div className="absolute inset-0 bg-black/50 z-10" />
       {heroImage && (
          <Image
             src={heroImage.imageUrl}
