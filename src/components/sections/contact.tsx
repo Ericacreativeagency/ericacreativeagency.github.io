@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,8 +17,6 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { submitContactForm, type ContactFormState } from '@/app/actions';
-import { cn } from '@/lib/utils';
 import { Label } from '../ui/label';
 
 const services = [
@@ -43,26 +39,14 @@ const contactFormSchema = z.object({
 
 type ContactFormInputs = z.infer<typeof contactFormSchema>;
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" size="lg" disabled={pending}>
-      {pending ? 'Sending...' : 'Send Message'}
-    </Button>
-  );
-}
-
 export function ContactSection() {
   const { toast } = useToast();
-  const [state, formAction] = useFormState<ContactFormState, FormData>(submitContactForm, {
-    message: '',
-  });
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
+    control
   } = useForm<ContactFormInputs>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -72,22 +56,21 @@ export function ContactSection() {
       message: '',
     },
   });
-  
-  useEffect(() => {
-    if (state.message && !state.issues) {
-      toast({
-        title: 'Success!',
-        description: state.message,
-      });
-      reset();
-    } else if (state.message && state.issues) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: state.message,
-      });
-    }
-  }, [state, toast, reset]);
+
+  const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
+    // In a real app, you would integrate with an email sending service here.
+    // For now, we'll just log to the console and show a success message.
+    console.log('Form submitted:', data);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    toast({
+      title: 'Success!',
+      description: 'Thank you for your message! We will get back to you soon.',
+    });
+    reset();
+  };
 
 
   return (
@@ -99,7 +82,7 @@ export function ContactSection() {
             <CardDescription className="text-lg">Have a project in mind? I'd love to hear about it.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={formAction} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
@@ -115,7 +98,7 @@ export function ContactSection() {
 
               <div className="space-y-2">
                 <Label htmlFor="service">Service of Interest</Label>
-                 <Select name="service">
+                 <Select name="service" onValueChange={(value) => control.setValue('service', value)}>
                     <SelectTrigger id="service">
                       <SelectValue placeholder="Select a service" />
                     </SelectTrigger>
@@ -142,17 +125,10 @@ export function ContactSection() {
               </div>
               
               <div className="text-center">
-                <SubmitButton />
+                <Button type="submit" size="lg" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </Button>
               </div>
-               {state?.issues && (
-                <div className="text-destructive text-sm">
-                  <ul>
-                    {state.issues.map((issue) => (
-                      <li key={issue}>{issue}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </form>
           </CardContent>
         </Card>
