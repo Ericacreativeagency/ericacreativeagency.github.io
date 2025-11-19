@@ -42,7 +42,7 @@ export function ContactSection() {
                {/* formsubmit.co spam prevention */}
               <input type="text" name="_honey" style={{display: 'none'}} />
               <input type="hidden" name="_captcha" value="false" />
-               <input type="hidden" name="_next" value="https://erica-creative.app/thank-you" />
+               <input type="hidden" name="_next" value="https://ericacreativeagency.co.za/thank-you" />
 
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
