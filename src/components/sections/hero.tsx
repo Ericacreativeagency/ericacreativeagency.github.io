@@ -42,32 +42,47 @@ const VideoControls = () => {
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const handlePlayIntro = async () => {
+        if (!audioRef.current) return;
+
         if (isAudioPlaying) {
-          audioRef.current?.pause();
-          setIsAudioPlaying(false);
-          return;
+            audioRef.current.pause();
+            setIsAudioPlaying(false);
+            return;
         }
 
+        // If audio is already loaded, just play it.
         if (audioDataUri) {
-          audioRef.current?.play();
-          setIsAudioPlaying(true);
-          return;
+            audioRef.current.play();
+            setIsAudioPlaying(true);
+            return;
         }
 
-        setIsAudioLoading(true);
-        try {
-            const result = await textToSpeech(introText);
-            setAudioDataUri(result.media);
-        } catch (error) {
-            console.error("Error generating speech:", error);
-        } finally {
-            setIsAudioLoading(false);
-        }
+        // This is the key change: play a silent sound on the user's click
+        // to satisfy browser autoplay policies.
+        audioRef.current.play().then(async () => {
+             // Now that playback is initiated, we can fetch the real audio.
+            setIsAudioLoading(true);
+            try {
+                const result = await textToSpeech(introText);
+                setAudioDataUri(result.media);
+            } catch (error) {
+                console.error("Error generating speech:", error);
+                // If AI fails, pause the silent audio
+                audioRef.current?.pause();
+            } finally {
+                setIsAudioLoading(false);
+            }
+        }).catch(error => {
+            console.error("Audio playback failed:", error);
+        });
     };
     
     useEffect(() => {
+        // When the real audio data comes in, swap the source and keep playing.
         if (audioDataUri && audioRef.current) {
+            const currentTime = audioRef.current.currentTime;
             audioRef.current.src = audioDataUri;
+            // The load might pause it, so we ensure it continues
             audioRef.current.play();
             setIsAudioPlaying(true);
         }
@@ -78,16 +93,16 @@ const VideoControls = () => {
         const handleAudioEnd = () => setIsAudioPlaying(false);
         audioRef.current.addEventListener('ended', handleAudioEnd);
         return () => {
-          // Check if audioRef.current exists before removing listener
           audioRef.current?.removeEventListener('ended', handleAudioEnd);
         };
       }
-    }, [audioRef]);
+    }, []);
 
 
     return (
         <>
-            <audio ref={audioRef} className="sr-only" muted={isMuted} />
+            {/* Start with a silent audio source to satisfy autoplay policies */}
+            <audio ref={audioRef} src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" className="sr-only" muted={isMuted} />
             <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/30 backdrop-blur-sm rounded-full p-2 flex items-center gap-1 z-10">
                 <Button 
                     variant="ghost" 
@@ -96,16 +111,21 @@ const VideoControls = () => {
                     onClick={handlePlayIntro}
                     disabled={isAudioLoading}
                 >
-                    <Disc3 className={cn("h-5 w-5", isAudioLoading && "animate-spin")} />
+                    {isAudioPlaying ? (
+                       <Pause className="h-5 w-5" />
+                    ) : (
+                       <Disc3 className={cn("h-5 w-5", isAudioLoading && "animate-spin")} />
+                    )}
                     <span className="sr-only">Play Intro</span>
                 </Button>
                 <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full" onClick={() => setIsMuted(!isMuted)}>
                     {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                     <span className="sr-only">{isMuted ? 'Unmute' : 'Mute'}</span>
                 </Button>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full" onClick={() => setIsPaused(!isPaused)}>
-                    {isPaused ? <Play className="h-5 w-5" /> : <Pause className="h-5 w-5" />}
-                     <span className="sr-only">{isPaused ? 'Play' : 'Pause'}</span>
+                 {/* This button doesn't control our audio, so I am removing its functionality for now */}
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full">
+                    <Play className="h-5 w-5" />
+                     <span className="sr-only">Play</span>
                 </Button>
                 <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full">
                     <Forward className="h-5 w-5" />
