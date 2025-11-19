@@ -30,8 +30,8 @@ export function ContactSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="max-w-3xl mx-auto shadow-lg bg-card/70 backdrop-blur-sm border-white/20">
           <CardHeader className="text-center">
-            <CardTitle className="font-headline text-3xl md:text-4xl">Let's Build Something Great</CardTitle>
-            <CardDescription className="text-lg">Have a project in mind? We'd love to hear about it.</CardDescription>
+            <CardTitle className="font-headline text-3xl md:text-4xl">Let's Create Together</CardTitle>
+            <CardDescription className="text-lg">Have a project in mind? I'd love to hear about it.</CardDescription>
           </CardHeader>
           <CardContent>
             <form 

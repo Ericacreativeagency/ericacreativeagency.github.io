@@ -10,7 +10,7 @@ export function Footer() {
           <LogoIcon className="h-8" />
         </div>
         <p className="text-sm">
-          &copy; {currentYear} Erica. All rights reserved.
+          &copy; {currentYear} Erica Creative. All rights reserved.
         </p>
       </div>
     </footer>

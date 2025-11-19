@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Volume2, VolumeX, Forward, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
@@ -13,10 +13,12 @@ const StaticHeroText = () => {
     <div className="z-10 flex flex-col items-center text-center text-white">
         <>
           <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 text-balance animate-fade-in-up">
-            Igniting Brands, Crafting Experiences.
+            Hi, I'm Erica.
+            <br />
+            Let's build something beautiful.
           </h1>
           <p className="max-w-xl md:max-w-2xl text-lg md:text-xl text-white/80 text-balance animate-fade-in-up [animation-delay:0.2s]">
-            We transform ideas into impactful realities through innovative design and strategic marketing.
+            I transform ideas into impactful realities through innovative design and strategic marketing.
           </p>
         </>
        <Button asChild size="lg" className="mt-8 animate-fade-in-up [animation-delay:0.4s]">
