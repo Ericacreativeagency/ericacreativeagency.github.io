@@ -4,14 +4,14 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Info, Grid, Mail } from 'lucide-react';
 import { LogoIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#services', label: 'Services' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#about', label: 'About', icon: <Info /> },
+  { href: '#services', label: 'Services', icon: <Grid /> },
+  { href: '#contact', label: 'Contact', icon: <Mail /> },
 ];
 
 export function Header() {
@@ -52,8 +52,9 @@ export function Header() {
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="text-sm font-medium transition-colors hover:text-primary"
+              className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
             >
+              {link.icon}
               {link.label}
             </a>
           ))}
@@ -78,8 +79,9 @@ export function Header() {
                       key={link.href}
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
-                      className="text-lg font-medium transition-colors hover:text-primary"
+                      className="flex items-center gap-4 text-lg font-medium transition-colors hover:text-primary"
                     >
+                      {link.icon}
                       {link.label}
                     </a>
                   ))}
