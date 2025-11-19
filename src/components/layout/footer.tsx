@@ -9,7 +9,10 @@ export function Footer() {
         <div className="flex justify-center items-center gap-2 mb-2">
           <LogoIcon className="h-8" />
         </div>
-        <p className="text-sm">
+        <p 
+          className="text-sm"
+          title="Innovation is about seeing what everyone has seen and thinking what nobody has thought. The first clue is an idea 💡."
+        >
           &copy; {currentYear} Erica Creative. All rights reserved.
         </p>
       </div>

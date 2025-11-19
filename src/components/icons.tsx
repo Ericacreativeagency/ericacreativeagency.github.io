@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { Lightbulb } from 'lucide-react';
 
 export const LogoIcon = ({ className }: { className?: string }) => (
   <svg
@@ -14,6 +15,11 @@ export const LogoIcon = ({ className }: { className?: string }) => (
       <path d="M4 8H28V14H4V8Z" fill="hsl(var(--primary))" />
       <path d="M4 17H22V23H4V17Z" fill="hsl(var(--accent))" />
       <path d="M4 26H28V32H4V26Z" fill="hsl(var(--primary))" />
+
+      {/* Easter Egg: Hidden Lightbulb */}
+      <g fill="hsl(var(--background))">
+        <path d="M15 20 A 1 1 0 0 1 16 21 A 1 1 0 0 1 15 22 A 1 1 0 0 1 14 21 A 1 1 0 0 1 15 20" />
+      </g>
 
       {/* Company Name */}
       <text
