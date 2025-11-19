@@ -1,57 +1,24 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { generateHeroSectionText, HeroSectionTextOutput } from '@/ai/flows/animated-hero-section-text-generation';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, Volume2, VolumeX, Forward, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 const heroImage = PlaceHolderImages.find(p => p.id === 'hero-background');
 
-const AnimatedHeroText = () => {
-  const [heroText, setHeroText] = useState<HeroSectionTextOutput | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchHeroText() {
-      try {
-        const result = await generateHeroSectionText({
-          agencyCapabilities: 'A digital solutions company specializing in innovative design and strategic marketing for tech startups and enterprise clients.',
-          valueProposition: 'We transform complex business challenges into elegant and impactful digital realities that drive growth and user engagement.',
-        });
-        setHeroText(result);
-      } catch (error) {
-        console.error('Failed to generate hero text:', error);
-        setHeroText({
-          heroTitle: 'Igniting Brands, Crafting Experiences.',
-          heroSubtitle: 'We transform ideas into impactful realities through innovative design and strategic marketing.',
-        });
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchHeroText();
-  }, []);
-
+const StaticHeroText = () => {
   return (
     <div className="z-10 flex flex-col items-center text-center text-white">
-      {loading ? (
-        <>
-          <Skeleton className="h-16 w-3/4 md:w-2/3 lg:w-1/2 mb-6" />
-          <Skeleton className="h-8 w-2/3 md:w-1/2 lg:w-1/3" />
-        </>
-      ) : (
         <>
           <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 text-balance animate-fade-in-up">
-            {heroText?.heroTitle}
+            Igniting Brands, Crafting Experiences.
           </h1>
           <p className="max-w-xl md:max-w-2xl text-lg md:text-xl text-white/80 text-balance animate-fade-in-up [animation-delay:0.2s]">
-            {heroText?.heroSubtitle}
+            We transform ideas into impactful realities through innovative design and strategic marketing.
           </p>
         </>
-      )}
        <Button asChild size="lg" className="mt-8 animate-fade-in-up [animation-delay:0.4s]">
         <a href="#contact">
           Let's Collaborate <ArrowRight className="ml-2 h-5 w-5" />
@@ -98,7 +65,7 @@ export function HeroSection() {
             data-ai-hint={heroImage.imageHint}
           />
       )}
-      <AnimatedHeroText />
+      <StaticHeroText />
       <VideoControls />
     </section>
   );

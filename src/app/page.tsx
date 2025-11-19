@@ -3,7 +3,6 @@ import { Footer } from '@/components/layout/footer';
 import { HeroSection } from '@/components/sections/hero';
 import { AboutSection } from '@/components/sections/about';
 import { ServicesSection } from '@/components/sections/services';
-import { ContentSuggester } from '@/components/sections/content-suggester';
 import { ContactSection } from '@/components/sections/contact';
 
 export default function Home() {
@@ -14,7 +13,7 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <ServicesSection />
-        <ContentSuggester />
+        {/* <ContentSuggester /> */}
         <ContactSection />
       </main>
       <Footer />
