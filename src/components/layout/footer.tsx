@@ -8,10 +8,10 @@ export function Footer() {
       <div className="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
         <div className="flex justify-center items-center gap-2 mb-2">
           <LogoIcon className="h-6 w-6" />
-          <span className="font-headline font-semibold">InnovateX Solutions</span>
+          <span className="font-headline font-semibold">Erica</span>
         </div>
         <p className="text-sm">
-          &copy; {currentYear} InnovateX Solutions. All rights reserved.
+          &copy; {currentYear} Erica. All rights reserved.
         </p>
       </div>
     </footer>

@@ -10,7 +10,7 @@ export function AboutSection() {
           </h2>
           <div className="w-24 h-1 bg-accent mx-auto mt-4 mb-6"></div>
           <p className="text-lg text-muted-foreground text-balance">
-            At InnovateX Solutions, we're passionate about helping businesses thrive in the digital age. We combine creativity with strategic thinking to deliver exceptional results. Our team of experts specializes in advertising, branding, digital marketing, content creation, web design and development, strategy and consultations, and e-commerce platforms. We believe in building strong partnerships with our clients, understanding their unique needs, and crafting tailored solutions that drive growth and success.
+            At Erica, we're passionate about helping businesses thrive in the digital age. We combine creativity with strategic thinking to deliver exceptional results. Our team of experts specializes in advertising, branding, digital marketing, content creation, web design and development, strategy and consultations, and e-commerce platforms. We believe in building strong partnerships with our clients, understanding their unique needs, and crafting tailored solutions that drive growth and success.
           </p>
         </div>
       </div>

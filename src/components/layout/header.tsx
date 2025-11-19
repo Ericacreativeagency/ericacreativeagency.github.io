@@ -46,7 +46,7 @@ export function Header() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <LogoIcon />
-          <span className="font-headline text-xl font-bold">InnovateX</span>
+          <span className="font-headline text-xl font-bold">Erica</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
@@ -72,7 +72,7 @@ export function Header() {
                 <div className="flex items-center justify-between">
                    <Link href="/" className="flex items-center gap-2">
                     <LogoIcon />
-                    <span className="font-headline text-xl font-bold">InnovateX</span>
+                    <span className="font-headline text-xl font-bold">Erica</span>
                   </Link>
                 </div>
                 <nav className="flex flex-col space-y-4">
