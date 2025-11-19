@@ -1,17 +1,18 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, Volume2, VolumeX, Forward, ArrowRight, Disc3 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { cn } from '@/lib/utils';
+import { ArrowRight } from 'lucide-react';
 
 const heroImage = PlaceHolderImages.find(p => p.id === 'hero-background');
 
 // A subtle, pre-encoded chime sound that represents innovation.
 const INNOVATION_SOUND_DATA_URI = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
 
-const StaticHeroText = () => {
+
+const HeroText = () => {
   return (
     <div className="z-10 flex flex-col items-center text-center text-white">
         <>
@@ -33,27 +34,28 @@ const StaticHeroText = () => {
   );
 };
 
-const VideoControls = () => {
+const AudioControls = () => {
     const [isMuted, setIsMuted] = useState(true);
-    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    const handlePlaySound = () => {
-        if (!audioRef.current) return;
+     const togglePlay = () => {
+      if (!audioRef.current) return;
 
-        if (isAudioPlaying) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            setIsAudioPlaying(false);
-        } else {
-            audioRef.current.play().catch(console.error);
-            setIsAudioPlaying(true);
-        }
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        // This is a trick to get around browser autoplay restrictions
+        // The user's first click "unlocks" the audio context
+        audioRef.current.play().catch(console.error);
+        setIsPlaying(true);
+      }
     };
     
     useEffect(() => {
       if (audioRef.current) {
-        const handleAudioEnd = () => setIsAudioPlaying(false);
+        const handleAudioEnd = () => setIsPlaying(false);
         audioRef.current.addEventListener('ended', handleAudioEnd);
         return () => {
           // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,27 +73,19 @@ const VideoControls = () => {
                     variant="ghost" 
                     size="icon" 
                     className="text-white hover:bg-white/20 rounded-full" 
-                    onClick={handlePlaySound}
+                    onClick={togglePlay}
+                    aria-label={isPlaying ? 'Pause sound' : 'Play innovation sound'}
                 >
-                    {isAudioPlaying ? (
-                       <Pause className="h-5 w-5" />
-                    ) : (
-                       <Disc3 className="h-5 w-5" />
-                    )}
-                    <span className="sr-only">Play Sound</span>
+                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                 </Button>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full" onClick={() => setIsMuted(!isMuted)}>
+                <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="text-white hover:bg-white/20 rounded-full" 
+                    onClick={() => setIsMuted(!isMuted)}
+                    aria-label={isMuted ? 'Unmute sound' : 'Mute sound'}
+                >
                     {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-                    <span className="sr-only">{isMuted ? 'Unmute' : 'Mute'}</span>
-                </Button>
-                 {/* These buttons are decorative for now */}
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full">
-                    <Play className="h-5 w-5" />
-                     <span className="sr-only">Play</span>
-                </Button>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full">
-                    <Forward className="h-5 w-5" />
-                    <span className="sr-only">Forward</span>
                 </Button>
             </div>
         </>
@@ -112,8 +106,8 @@ export function HeroSection() {
             data-ai-hint={heroImage.imageHint}
           />
       )}
-      <StaticHeroText />
-      <VideoControls />
+      <HeroText />
+      <AudioControls />
     </section>
   );
 }

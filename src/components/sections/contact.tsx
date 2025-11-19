@@ -1,6 +1,12 @@
 'use client';
 
 import React from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useEffect } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,6 +18,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { submitContactForm, type ContactFormState } from '@/app/actions';
+import { cn } from '@/lib/utils';
+import { Label } from '../ui/label';
 
 const services = [
   'Advertising',
@@ -24,7 +34,62 @@ const services = [
   'Other',
 ];
 
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+  service: z.string().min(1, { message: 'Please select a service of interest.' }),
+  message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
+});
+
+type ContactFormInputs = z.infer<typeof contactFormSchema>;
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" size="lg" disabled={pending}>
+      {pending ? 'Sending...' : 'Send Message'}
+    </Button>
+  );
+}
+
 export function ContactSection() {
+  const { toast } = useToast();
+  const [state, formAction] = useFormState<ContactFormState, FormData>(submitContactForm, {
+    message: '',
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormInputs>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      service: '',
+      message: '',
+    },
+  });
+  
+  useEffect(() => {
+    if (state.message && !state.issues) {
+      toast({
+        title: 'Success!',
+        description: state.message,
+      });
+      reset();
+    } else if (state.message && state.issues) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: state.message,
+      });
+    }
+  }, [state, toast, reset]);
+
+
   return (
     <section id="contact" className="py-20 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,30 +99,22 @@ export function ContactSection() {
             <CardDescription className="text-lg">Have a project in mind? I'd love to hear about it.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form 
-              action="https://formsubmit.co/contact.erica@proton.me" 
-              method="POST" 
-              className="space-y-6"
-            >
-               {/* formsubmit.co spam prevention */}
-              <input type="text" name="_honey" style={{display: 'none'}} />
-              <input type="hidden" name="_captcha" value="false" />
-               <input type="hidden" name="_next" value="https://ericacreativeagency.co.za/thank-you" />
-
-
+            <form action={formAction} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">Full Name</label>
-                  <Input id="name" name="name" placeholder="John Doe" required />
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input id="name" {...register('name')} placeholder="John Doe" />
+                  {errors.name && <p className="text-destructive text-sm mt-1">{errors.name.message}</p>}
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">Email Address</label>
-                  <Input id="email" name="email" type="email" placeholder="you@example.com" required />
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input id="email" type="email" {...register('email')} placeholder="you@example.com" />
+                  {errors.email && <p className="text-destructive text-sm mt-1">{errors.email.message}</p>}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="service" className="text-sm font-medium">Service of Interest</label>
+                <Label htmlFor="service">Service of Interest</Label>
                  <Select name="service">
                     <SelectTrigger id="service">
                       <SelectValue placeholder="Select a service" />
@@ -70,22 +127,32 @@ export function ContactSection() {
                     ))}
                   </SelectContent>
                 </Select>
+                 {errors.service && <p className="text-destructive text-sm mt-1">{errors.service.message}</p>}
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">Your Message</label>
+                <Label htmlFor="message">Your Message</Label>
                 <Textarea
                   id="message"
-                  name="message"
+                  {...register('message')}
                   placeholder="Tell us about your project..."
                   className="min-h-[120px]"
-                  required
                 />
+                {errors.message && <p className="text-destructive text-sm mt-1">{errors.message.message}</p>}
               </div>
-
+              
               <div className="text-center">
-                <Button type="submit" size="lg">Send Message</Button>
+                <SubmitButton />
               </div>
+               {state?.issues && (
+                <div className="text-destructive text-sm">
+                  <ul>
+                    {state.issues.map((issue) => (
+                      <li key={issue}>{issue}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </form>
           </CardContent>
         </Card>
