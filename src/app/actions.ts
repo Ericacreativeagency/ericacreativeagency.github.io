@@ -1,21 +1,7 @@
 'use server';
 
-import { suggestContent } from '@/ai/flows/content-suggestion-tool';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-
-export async function generateSuggestions(service: string) {
-  if (!service) {
-    return { success: false, error: 'Please select a service.' };
-  }
-  try {
-    const result = await suggestContent({ service });
-    return { success: true, suggestions: result.suggestions };
-  } catch (error) {
-    console.error('AI suggestion error:', error);
-    return { success: false, error: 'Failed to generate suggestions. Please try again later.' };
-  }
-}
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),

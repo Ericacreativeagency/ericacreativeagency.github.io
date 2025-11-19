@@ -4,7 +4,6 @@ import { HeroSection } from '@/components/sections/hero';
 import { AboutSection } from '@/components/sections/about';
 import { ServicesSection } from '@/components/sections/services';
 import { ContactSection } from '@/components/sections/contact';
-import { ContentSuggester } from '@/components/sections/content-suggester';
 
 export default function Home() {
   return (
@@ -14,7 +13,6 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <ServicesSection />
-        <ContentSuggester />
         <ContactSection />
       </main>
       <Footer />
