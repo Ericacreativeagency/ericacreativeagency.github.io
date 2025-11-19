@@ -40,9 +40,9 @@ export function ContentSuggester() {
   };
 
   return (
-    <section id="ai-tools" className="py-20 lg:py-32 bg-background">
+    <section id="ai-tools" className="py-20 lg:py-32 bg-background/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="max-w-3xl mx-auto shadow-lg">
+        <Card className="max-w-3xl mx-auto shadow-lg bg-card/70 backdrop-blur-sm border-white/20">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">AI Content Idea Generator</CardTitle>
             <CardDescription className="text-lg">
@@ -82,11 +82,11 @@ export function ContentSuggester() {
                  </Alert>
               )}
               {suggestions.length > 0 && (
-                <div className="space-y-4">
+                <div className="space-y-4 animate-fade-in-up">
                     <h3 className="font-headline text-xl font-semibold text-center">Here are some ideas for "{selectedService}"</h3>
                     <ul className="list-none space-y-3">
                     {suggestions.map((suggestion, index) => (
-                      <li key={index} className="flex items-start p-4 bg-secondary rounded-lg">
+                      <li key={index} className="flex items-start p-4 bg-secondary/50 rounded-lg backdrop-blur-sm border border-white/10">
                         <Lightbulb className="h-5 w-5 text-accent mr-3 mt-1 flex-shrink-0" />
                         <span>{suggestion}</span>
                       </li>

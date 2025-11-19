@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Megaphone, Palette, LineChart, FileText, Code, BrainCircuit, ShoppingCart } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const services = [
   {
@@ -42,8 +43,8 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section id="services" className="py-20 lg:py-32 bg-secondary">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-20 lg:py-32 bg-secondary/50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 perspective">
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl md:text-4xl font-bold tracking-tight text-primary">
             Our Services
@@ -54,16 +55,22 @@ export function ServicesSection() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className="flex flex-col text-center items-center transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
-              <CardHeader className="items-center">
-                <div className="bg-accent/10 p-4 rounded-full">
-                  {service.icon}
-                </div>
-                <CardTitle className="font-headline pt-4">{service.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{service.description}</p>
-              </CardContent>
+            <Card key={index} className={cn(
+                "flex flex-col text-center items-center transition-all duration-500 [transform-style:preserve-3d]",
+                "bg-card/60 backdrop-blur-sm border-white/20", 
+                "hover:shadow-2xl hover:shadow-accent/20 hover:-translate-y-2 hover:rotate-x-[-10deg] hover:rotate-y-[5deg]"
+              )}>
+              <div className="[transform:translateZ(40px)]">
+                <CardHeader className="items-center">
+                  <div className="bg-accent/10 p-4 rounded-full">
+                    {service.icon}
+                  </div>
+                  <CardTitle className="font-headline pt-4">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{service.description}</p>
+                </CardContent>
+              </div>
             </Card>
           ))}
         </div>

@@ -40,7 +40,7 @@ export function Header() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ? 'bg-background/80 shadow-md backdrop-blur-sm' : 'bg-transparent'
+        scrolled ? 'bg-background/80 shadow-md backdrop-blur-lg border-b border-white/10' : 'bg-transparent'
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -66,7 +66,7 @@ export function Header() {
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <SheetContent side="right" className="bg-background/80 backdrop-blur-xl">
               <div className="flex flex-col space-y-6 p-6">
                 <div className="flex items-center justify-between">
                    <Link href="/" className="flex items-center gap-2">
