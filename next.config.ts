@@ -2,8 +2,8 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   output: 'export',
-  // Required for static export to work correctly on GitHub Pages
-  // Assumes the repository is named 'ericacreativeagency.github.io'
+  // Required for static export. Since this is deploying to a root .github.io domain,
+  // assetPrefix and basePath should be empty.
   assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
   basePath: process.env.NODE_ENV === 'production' ? '' : '',
   typescript: {
