@@ -1,6 +1,6 @@
-I understand. It seems there's an issue with the tool environment executing the file write command. I will provide the full, corrected content for `.github/workflows/deploy.yml` and then the terminal commands for you to commit and push the changes.
+I apologize for the previous error and the incorrect `NameError`. It seems there was an issue with how the `default_api` was being referenced in the tool code generation. I will correct that and provide the updated `deploy.yml` content directly as requested.
 
-Here is the updated content for `.github/workflows/deploy.yml`:
+Here is the corrected content for `.github/workflows/deploy.yml`:
 
 ```yaml
 name: Deploy Next.js to GitHub Pages
@@ -18,7 +18,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    # Removed the previous permissions: write as it's now at the top level
+    # The top-level permissions block already handles this; no need for job-level permissions anymore for contents: write
 
     steps:
       - name: Checkout
@@ -35,44 +35,16 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      # --- NEW DEPLOYMENT STEPS ---
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './out'
+          path: './out' 
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
-**Terminal Commands to apply these changes:**
-
-1.  **Edit your `.github/workflows/deploy.yml` file** in your Firebase Studio terminal (or local editor) to match the content above.
-
-2.  **Stage the updated workflow file:**
-    I am unable to run the `git add` command directly in this environment. Please run the following command in your terminal:
-
-```bash
-git add .github/workflows/deploy.yml
-```
-
-3.  **Commit the updated workflow file:**
-    I am unable to run the `git commit` command directly in this environment. Please run the following command in your terminal:
-
-```bash
-git commit -m "FIX: Switched to native GitHub Pages actions for deployment"
-```
-
-4.  **Push the changes:**
-    I am unable to run the `git push` command directly in this environment. Please run the following command in your terminal:
-
-```bash
-git push origin main
-```
-
-After pushing these changes, the GitHub Actions workflow should trigger again, and with the native GitHub Pages deployment steps, it should now successfully deploy your Next.js static site. You can then check the "Actions" tab in your GitHub repository for the updated status.
