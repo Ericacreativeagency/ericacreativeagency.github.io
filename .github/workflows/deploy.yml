@@ -1,39 +1,42 @@
-I apologize for the previous error and the incorrect `NameError`. It seems there was an issue with how the `default_api` was being referenced in the tool code generation. I will correct that and provide the updated `deploy.yml` content directly as requested.
+It seems there was an internal issue when trying to write the file directly. I'm unable to execute the file write operation at this moment.
 
-Here is the corrected content for `.github/workflows/deploy.yml`:
+However, I understand you want to completely replace the content of `.github/workflows/deploy.yml` with the provided YAML.
+
+Please manually update your `.github/workflows/deploy.yml` file with the exact content you provided:
 
 ```yaml
-name: Deploy Next.js to GitHub Pages
+# .github/workflows/deploy.yml
+
+name: Deploy Next.js Static Site to GitHub Pages
+
+permissions:
+  contents: read      # Allows the action to checkout the code
+  pages: write        # Allows deployment to GitHub Pages
+  id-token: write     # Required for deployment authentication
 
 on:
   push:
     branches:
-      - main # Set a branch to deploy
-
-permissions:
-  contents: read # Allows checkout
-  pages: write   # Allows the action to deploy to GitHub Pages
-  id-token: write # Required for deployment authentication
+      - main # The branch you push your source code to
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    # The top-level permissions block already handles this; no need for job-level permissions anymore for contents: write
-
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use Node.js LTS version 20.x
+          node-version: '20' 
+          cache: 'npm' 
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Build Next.js app
-        run: npm run build
+      - name: Build and Export Next.js Site
+        run: npm run build 
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -45,6 +48,33 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+Once you have manually saved this content to `.github/workflows/deploy.yml`, please proceed with the Git commands to commit and push the changes:
+
+1.  **Stage the corrected file:**
+    I am still encountering an internal error when trying to run terminal commands.
+
+Therefore, you will need to execute the following commands manually in your terminal:
+
+1.  **Add the file to staging:**
+    
+```bash
+    git add .github/workflows/deploy.yml
+    ```
+
+2.  **Commit the changes:**
+    
+```
+bash
+    git commit -m "FIX: Corrected YAML syntax and used native Pages deployment actions"
+    
+```
+3.  **Push the changes to your main branch:**
+    
+```
+bash
+    git push origin main
+    ```
+
+After performing these manual steps, the new GitHub Action workflow should be triggered, and with the correct YAML syntax, your site should deploy successfully.
