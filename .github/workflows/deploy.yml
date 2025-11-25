@@ -37,10 +37,8 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Build
-        # Assumes the repository name is 'erica-creative-portfolio'
-        # If it's different, update the basePath in next.config.ts
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5

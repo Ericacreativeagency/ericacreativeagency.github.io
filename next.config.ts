@@ -3,6 +3,7 @@ import type {NextConfig} from 'next';
 const nextConfig: NextConfig = {
   output: 'export',
   // Required for static export to work correctly on GitHub Pages
+  // Assumes the repository is named 'erica-creative-portfolio'
   assetPrefix: process.env.NODE_ENV === 'production' ? '/erica-creative-portfolio/' : '',
   basePath: process.env.NODE_ENV === 'production' ? '/erica-creative-portfolio' : '',
   typescript: {
