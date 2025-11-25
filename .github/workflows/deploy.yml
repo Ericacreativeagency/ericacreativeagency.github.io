@@ -1,0 +1,43 @@
+# .github/workflows/deploy.yml
+
+name: Deploy Next.js Static Site to GitHub Pages
+
+permissions:
+  contents: read      # Allows the action to checkout the code
+  pages: write        # Allows deployment to GitHub Pages
+  id-token: write     # Required for deployment authentication
+
+on:
+  push:
+    branches:
+      - main # The branch you push your source code to
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build and Export Next.js Site
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './out'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
