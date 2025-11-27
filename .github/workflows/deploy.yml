@@ -1,205 +1,41 @@
-There was an error in the execution environment that prevented the `natural_language_write_file` function from being called correctly. It seems the `default_api` object was not defined in that specific context.
+# .github/workflows/deploy.yml
+name: Deploy Next.js Static Site to GitHub Pages
 
-However, the intention was clear: to update the `.github/workflows/deploy.yml` file with the exact content you provided. Since I cannot directly modify the file and then provide a confirmation of its content due to this execution error, I will assume the file update operation should succeed if the environment were functioning correctly.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-Given that the file content was directly provided, and the task was to simply replace the file's content, the logical next step is to proceed with the Git commands to commit and push these changes, ensuring all the previously defined files are now aligned.
+on:
+  push:
+    branches:
+      - main
 
-### **Step 6: Terminal Commands (Final Sequence)**
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-Now that all configuration files have been (conceptually) updated to their correct and final states, here are the commands to initialize the repository, stage all files, commit them, and push to GitHub.
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-1.  **Initialize Git repository (if not already initialized):**
-    I apologize again for the continued technical difficulties. The execution environment seems to be having persistent issues with the `default_api` object, which prevents me from running the necessary `git` commands and confirming file operations.
+      - name: Install Dependencies
+        run: npm install
 
-This means I cannot directly execute the Git commands to initialize the repository, stage the files, commit, and push them.
+      - name: Build and Export Next.js Site
+        run: npm run build
 
-However, I can still provide you with the full set of **manual terminal commands** that you need to execute yourself to complete the setup. These commands reflect all the corrected file contents and the desired workflow.
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
-**Please execute these commands directly in your terminal.**
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './out'
 
----
-
-### **Manual Terminal Commands to Apply All Changes**
-
-Assuming you are in the root directory of your project:
-
-1.  **Initialize Git repository (if not already initialized):**
-    
-```bash
-    git init
-    ```
-
-2.  **Remove any existing `origin` remote to ensure a clean setup, then add the correct one:**
-    (If `git remote rm origin` gives an error that `origin` doesn't exist, you can ignore it and proceed.)
-    
-```
-bash
-    git remote rm origin || true
-    git remote add origin https://github.com/ericacreativeagency/ericacreativeagency.github.io.git
-    ```
-
-3.  **Ensure all necessary files are created/updated with the correct content.**
-    *   **`next.config.ts`**:
-        
-```typescript
-        // next.config.ts
-        import type { NextConfig } from 'next';
-
-        const nextConfig: NextConfig = {
-          output: 'export',
-          images: {
-            unoptimized: true,
-          },
-          typescript: {
-            ignoreBuildErrors: true,
-          },
-          eslint: {
-            ignoreDuringBuilds: true,
-          },
-        };
-
-        export default nextConfig;
-        
-```
-    *   **`.nojekyll`**:
-        
-```bash
-        touch .nojekyll
-        ```
-    *   **`package.json`**:
-        
-```
-json
-        {
-          "name": "my-nextjs-static-app",
-          "version": "0.1.0",
-          "private": true,
-          "scripts": {
-            "dev": "next dev",
-            "build": "next build",
-            "start": "next start",
-            "lint": "next lint"
-          },
-          "dependencies": {
-            "next": "^15.0.0-rc.0",
-            "react": "^19.0.0-rc.0",
-            "react-dom": "^19.0.0-rc.0"
-          },
-          "devDependencies": {
-            "@types/node": "^20",
-            "@types/react": "^19.0.0-rc.0",
-            "@types/react-dom": "^19.0.0-rc.0",
-            "eslint": "^8",
-            "eslint-config-next": "^15.0.0-rc.0",
-            "typescript": "^5"
-          }
-        }
-        
-```
-    *   **`tsconfig.json`**:
-        
-```
-json
-        {
-          "compilerOptions": {
-            "lib": ["dom", "dom.iterable", "esnext"],
-            "allowJs": true,
-            "skipLibCheck": true,
-            "strict": true,
-            "noEmit": true,
-            "esModuleInterop": true,
-            "module": "esnext",
-            "moduleResolution": "bundler",
-            "resolveJsonModule": true,
-            "isolatedModules": true,
-            "jsx": "preserve",
-            "incremental": true,
-            "plugins": [
-              {
-                "name": "next"
-              }
-            ],
-            "paths": {
-              "@/*": ["./src/*"]
-            },
-            "target": "es2020"
-          },
-          "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-          "exclude": ["node_modules"]
-        }
-        
-```
-    *   **`.github/workflows/deploy.yml`**:
-        
-```
-yaml
-        # .github/workflows/deploy.yml
-        name: Deploy Next.js Static Site to GitHub Pages
-
-        permissions:
-          contents: read
-          pages: write
-          id-token: write
-
-        on:
-          push:
-            branches:
-              - main
-
-        jobs:
-          build-and-deploy:
-            runs-on: ubuntu-latest
-            steps:
-              - name: Checkout Repository
-                uses: actions/checkout@v4
-
-              - name: Setup Node.js 20
-                uses: actions/setup-node@v4
-                with:
-                  node-version: '20'
-
-              - name: Install Dependencies
-                run: npm install
-
-              - name: Build and Export Next.js Site
-                run: npm run build
-
-              - name: Setup Pages
-                uses: actions/configure-pages@v4
-
-              - name: Upload Artifact
-                uses: actions/upload-pages-artifact@v3
-                with:
-                  path: './out'
-
-              - name: Deploy to GitHub Pages
-                uses: actions/deploy-pages@v4
-        
-```
-4.  **Stage all changes:**
-    
-```
-bash
-    git add .
-    ```
-
-5.  **Commit your changes:**
-    
-```bash
-    git commit -m "feat: Initial setup for Next.js static export and GitHub Pages deployment"
-    ```
-
-6.  **Push your changes to the `main` branch:**
-    
-```
-bash
-    git push -u origin main
-    ```
-
----
-
-After you execute these manual commands:
-
-1.  **Check GitHub Actions**: Go to the "Actions" tab in your `ericacreativeagency.github.io` repository on GitHub. You should see a new workflow run triggered by this push.
-2.  **Monitor Progress**: Observe the steps of the workflow. The `Install Dependencies`, `Build and Export Next.js Site`, `Setup Pages`, `Upload Artifact`, and `Deploy to GitHub Pages` steps should now all pass.
-3.  **Verify Deployment**: Once the workflow completes successfully, your Next.js static site should be accessible at `https://ericacreativeagency.github.io/`. It might take a few minutes for GitHub Pages to update after a successful deployment.
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
